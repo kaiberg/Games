@@ -1,0 +1,21 @@
+﻿@page "/"
+
+<PageTitle>Games</PageTitle>
+<div class="row row-cols-1 row-cols-md-6 g-4">
+    @foreach (var route in GameRoutes)
+    {
+        <div class="col">
+            <a class="card" href="game/@route">
+                <img src="lotus.jpg" class="card-img-top" alt="example">
+                <div class="card-body">
+                    <h5 class="card-title">@route</h5>
+@*                    <p class="card-text"></p>*@
+                </div>
+            </a>
+        </div>
+    }
+</div>
+
+@code {
+    String[] GameRoutes = { "fifteen", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "" };
+}
