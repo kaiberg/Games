@@ -2,38 +2,66 @@
 @using Games.Shared
 @using Games.Shared.Fifteen
 
-<PageTitle>Games</PageTitle>
-<h3>fifteen</h3>
-
-<button value="U" @onclick="() => game.Swap(Move.UP)">U</button>
-<button value="D" @onclick="() => game.Swap(Move.DOWN)">D</button>
-<button value="L" @onclick="() => game.Swap(Move.LEFT)">L</button>
-<button value="R" @onclick="() => game.Swap(Move.RIGHT)">R</button>
+<PageTitle>Fifteen</PageTitle>
+<button class="btn btn-primary" @onclick="() => game.Swap(Move.DOWN)">U</button>
+<button class="btn btn-primary" @onclick="() => game.Swap(Move.UP)">D</button>
+<button class="btn btn-primary" @onclick="() => game.Swap(Move.RIGHT)">L</button>
+<button class="btn btn-primary" @onclick="() => game.Swap(Move.LEFT)">R</button>
 
 <div>
     @for (int i = 0; i < game.DIMENSION_SIZE; i++)
     {
-        <div>
-        @for (int j = 0; j < game.DIMENSION_SIZE; j++)
-        {
-                <text>@game.Board[i,j].Number | </text>
-        }
+        <div class="row">
+            @for (int j = 0; j < game.DIMENSION_SIZE; j++)
+            {
+                var empty = (i == game.EmptyRow && j == game.EmptyColumn) ? "empty" : "";
+                var correct = (game.Board[i, j].IsCorrect) ? "correct" : "";
+                <div class="piece @empty @correct">
+                    <text>@game.Board[i,j].Number</text>
+                </div>
+            }
         </div>
     }
 </div>
 
 @code {
+
     [Parameter]
-    public int Count { get; set; } = 16;
+    public int Count { get; set; }
     [Parameter]
-    public string Seed { get; set; } = "tesdfljfdjklskjftSEEDäÞêøÿõ6";
-    Game game { get; set; }
+    public string Seed { get; set; } = string.Empty;
+    Game game { get; set; } = new(4);
 }
 
 @functions {
+    public void KeyPressHandler(KeyboardEventArgs e)
+    {
+        Console.WriteLine(e.Key);
+        switch (e.Key)
+        {
+            case "ArrowDown":
+            case "KeyS":
+                game.Swap(Move.DOWN);
+                break;
+            case "ArrowUp":
+            case "KeyW":
+                game.Swap(Move.UP);
+                break;
+            case "ArrowLeft":
+            case "KeyA":
+                game.Swap(Move.LEFT);
+                break;
+            case "ArrowRight":
+            case "KeyD":
+                game.Swap(Move.RIGHT);
+                break;
+        }
+    }
     protected override void OnInitialized()
     {
-        game = new(4,Seed);
+        if (Seed == string.Empty)
+            Seed = Helper.GetRandomString();
+        game = new(4, Seed);
         base.OnInitialized();
     }
 }
