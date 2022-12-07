@@ -8,21 +8,29 @@
 <button class="btn btn-primary" @onclick="() => game.Swap(Move.RIGHT)">L</button>
 <button class="btn btn-primary" @onclick="() => game.Swap(Move.LEFT)">R</button>
 
-<div>
-    @for (int i = 0; i < game.DIMENSION_SIZE; i++)
-    {
-        <div class="row">
-            @for (int j = 0; j < game.DIMENSION_SIZE; j++)
-            {
-                var empty = (i == game.EmptyRow && j == game.EmptyColumn) ? "empty" : "";
-                var correct = (game.Board[i, j].IsCorrect) ? "correct" : "";
-                <div class="piece @empty @correct">
-                    <text>@game.Board[i,j].Number</text>
-                </div>
-            }
-        </div>
-    }
-</div>
+@if (!game.IsOver)
+{
+    <div>
+        @for (int i = 0; i < game.DIMENSION_SIZE; i++)
+        {
+            <div class="row">
+                @for (int j = 0; j < game.DIMENSION_SIZE; j++)
+                {
+                    var empty = (i == game.EmptyRow && j == game.EmptyColumn) ? "empty" : "";
+                    var correct = (game.Board[i, j].IsCorrect) ? "correct" : "";
+                    <div class="piece @empty @correct">
+                        <text>@game.Board[i,j].Number</text>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>You Won!!!</p>
+}
+
 
 @code {
 
