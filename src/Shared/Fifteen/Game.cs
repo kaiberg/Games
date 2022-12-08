@@ -34,7 +34,12 @@ namespace Games.Shared.Fifteen
 
             for (int i = 0; i < DIMENSION_SIZE; i++)
                 for (int j = 0; j < DIMENSION_SIZE; j++)
-                    Board[i, j] = new() { Number = i * DIMENSION_SIZE + j + 1, IsCorrect = true };
+                    Board[i, j] = new()
+                    {
+                        Number = i *
+                        DIMENSION_SIZE + j + 1,
+                        IsCorrect = true
+                    };
 
             (EmptyRow, EmptyColumn) = (DIMENSION_SIZE - 1, DIMENSION_SIZE - 1);
         }
@@ -57,25 +62,14 @@ namespace Games.Shared.Fifteen
 
         private void scramble(string seed)
         {
-            foreach (char c in seed)
-            {
-                int n = c;
-                while (n != 0)
-                {
-                    Move m;
-                    int digit = Helper.LastDigit(n);
-                    if (digit < 5)
-                        m = (digit % 2 == 0)
-                            ? Move.UP
-                            : Move.DOWN;
-                    else
-                        m = (digit % 2 == 0)
-                            ? Move.LEFT
-                            : Move.RIGHT;
-                    Swap(m);
-                    n = Helper.RemoveLastDigit(n);
-                }
+            var moves = Enum.GetValues(typeof(Move));
 
+            Random random = new(Helper.GetInt32(seed));
+
+            for (int i = 0; i < COUNT * COUNT; i++)
+            {
+                var index = random.Next(moves.Length);
+                Swap((Move)moves.GetValue(index));
             }
         }
 

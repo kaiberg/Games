@@ -68,7 +68,7 @@ else
     protected override void OnInitialized()
     {
         if (Seed == string.Empty)
-            Seed = Helper.GetRandomString();
+            Seed = Helper.GetRandom();
         game = new(4, Seed);
         base.OnInitialized();
     }
